@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: Middle-Service
+server:
+  port: 8081
+api:
+  rest:
+    url: http://localhost:8082
