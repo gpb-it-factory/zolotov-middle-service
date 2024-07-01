@@ -1,4 +1,4 @@
-package ru.gpb.midserv.service
+package ru.gpb.midserv.service.register
 
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus

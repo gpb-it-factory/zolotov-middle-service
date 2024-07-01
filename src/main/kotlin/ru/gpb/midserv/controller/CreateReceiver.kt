@@ -8,32 +8,39 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
 import ru.gpb.midserv.models.Response
 import ru.gpb.midserv.models.User
-import ru.gpb.midserv.service.register.RegisterService
-import ru.gpb.midserv.service.register.ServerApiResponse
+import ru.gpb.midserv.service.create.CreateAccountApiResponse
+import ru.gpb.midserv.service.create.CreateService
 
 @RestController
-class RegisterController(private val registerService: RegisterService) {
+class CreateController(private val createService: CreateService) {
 
     private val logger = LoggerFactory.getLogger(RegisterController::class.java)
 
-    @PostMapping("/register")
+    @PostMapping("/createaccount")
     fun receiveUser(@RequestBody user: User): ResponseEntity<Response> {
         logger.info("Receive user from frontend")
-        val operationCode = registerService.registerUser(user)
+        val operationCode = createService.createAccount(user)
         return when (operationCode) {
-            is ServerApiResponse.Success -> {
+            is CreateAccountApiResponse.Success -> {
                 logger.info("Return SUCCESS to frontend")
                 ResponseEntity.noContent().build()
             }
 
-            is ServerApiResponse.Problem -> {
+            is CreateAccountApiResponse.Forbidden -> {
+                logger.info("Return FORBIDDEN to frontend")
+                ResponseEntity(
+                    Response("User got to register first"), HttpStatus.FORBIDDEN
+                )
+            }
+
+            is CreateAccountApiResponse.Problem -> {
                 logger.info("Return PROBLEM to frontend")
                 ResponseEntity(
                     Response("User already registered"), HttpStatus.CONFLICT
                 )
             }
 
-            is ServerApiResponse.Error -> {
+            is CreateAccountApiResponse.Error -> {
                 logger.info("Return ERROR to frontend")
                 ResponseEntity(
                     Response("Something went wrong"), HttpStatus.INTERNAL_SERVER_ERROR

@@ -10,8 +10,8 @@ import org.springframework.web.reactive.function.client.WebClient
 import reactor.core.publisher.Mono
 import ru.gpb.midserv.controller.RegisterController
 import ru.gpb.midserv.models.User
-import ru.gpb.midserv.service.RegisterService
-import ru.gpb.midserv.service.ServerApiResponse
+import ru.gpb.midserv.service.register.RegisterService
+import ru.gpb.midserv.service.register.ServerApiResponse
 
 @SpringBootTest
 class MiddleServiceApplicationTests {
